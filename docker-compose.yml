@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: mysql:5.7
+    image: mysql:5.7  # Using MySQL 5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -14,12 +14,17 @@ services:
       - "3306:3306"
 
   flask-app:
-    build: ./app
+    build: ./app  # Path where Dockerfile is located
     restart: always
     ports:
       - "5000:5000"
     depends_on:
-      - db
+      - db  # Ensure MySQL starts before Flask
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=user_db
 
 volumes:
   mysql_data:
